@@ -45,6 +45,9 @@ stages:
             echo "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="
             lacework sca scan $(Build.SourcesDirectory) --save-results
 
+            echo "return value: $?"
+
+#    - task: CmdLine@2
 #            docker run \
 #            -e LW_ACCOUNT=$(LW_ACCOUNT) \
 #            -e LW_API_KEY=$(LW_API_KEY) \
