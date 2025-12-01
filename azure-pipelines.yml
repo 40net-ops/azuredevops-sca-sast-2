@@ -13,7 +13,13 @@ stages:
     steps:
     - checkout: self
 
-- script: |
+    - task: CmdLine@2
+      displayName: 'Install Lacework CLI'
+      inputs:
+        script: |
+          echo "Installing Lacework CLI..."
+          curl https://raw.githubusercontent.com/lacework/go-sdk/main/cli/install.sh | bash
+
     - task: CmdLine@2
       displayName: 'Configure Lacework CLI and Install SCA'
       inputs:
