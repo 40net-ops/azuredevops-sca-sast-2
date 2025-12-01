@@ -17,7 +17,11 @@ stages:
       displayName: 'FortiCNAPP SCA 2'
       inputs:
         script: |
+            echo "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="
             ls -la $(Build.SourcesDirectory)
+            echo "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="
+            ls -la .
+            echo "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="
 
             echo "Running FortiCNAPP SCA / SAST checks." 
 
@@ -26,12 +30,19 @@ stages:
             echo "[debug] Build.DefinitionName: $(Build.DefinitionName)"
             echo "[debug] Build.Repository.Uri: $(Build.Repository.Uri)"
 
+            echo "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="
             curl https://raw.githubusercontent.com/lacework/go-sdk/main/cli/install.sh | bash
 
+            echo "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="
             lacework configure -a $(LW_ACCOUNT) -k $(LW_API_KEY) -s $(LW_API_SECRET) --noninteractive
 
+            echo "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="
             lacework component install sca
 
+            echo "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="
+            lacework configure list
+
+            echo "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="
             lacework sca scan $(Build.SourcesDirectory) --save-results
 
 #            docker run \
