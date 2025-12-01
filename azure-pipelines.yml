@@ -26,18 +26,26 @@ stages:
             echo "[debug] Build.DefinitionName: $(Build.DefinitionName)"
             echo "[debug] Build.Repository.Uri: $(Build.Repository.Uri)"
 
-            docker run \
-            -e LW_ACCOUNT=$(LW_ACCOUNT) \
-            -e LW_API_KEY=$(LW_API_KEY) \
-            -e LW_API_SECRET=$(LW_API_SECRET) \
-            -e CI_PIPELINE_NAME=$(Build.DefinitionName) \
-            -e CI_BUILD_ID=$(Build.BuildId) \
-            -e CI_PIPELINE_URL=$(Build.Repository.Uri) \
-            -e CI_BUILD_URL=$(Build.Repository.Uri) \
-            -e CI_REPO_URL=$(Build.Repository.Uri) \
-            -e CI_PLATFORM=AzureDevOps \
-            -e WORKSPACE=src \
-            -e EXIT_FLAG='high' \
-            -v $(Build.SourcesDirectory):/app/src:rw \
-            docker.io/lacework/codesec:stable lacework sca scan /app/src --save-results
+            curl https://raw.githubusercontent.com/lacework/go-sdk/main/cli/install.sh | bash
+
+            lacework configure -a $(LW_ACCOUNT) -k $(LW_API_KEY) -s $(LW_API_SECRET) --noninteractive
+
+            lacework component install sca
+
+            lacework sca scan $(Build.SourcesDirectory) --save-results
+
+#            docker run \
+#            -e LW_ACCOUNT=$(LW_ACCOUNT) \
+#            -e LW_API_KEY=$(LW_API_KEY) \
+#            -e LW_API_SECRET=$(LW_API_SECRET) \
+#            -e CI_PIPELINE_NAME=$(Build.DefinitionName) \
+#            -e CI_BUILD_ID=$(Build.BuildId) \
+#            -e CI_PIPELINE_URL=$(Build.Repository.Uri) \
+#            -e CI_BUILD_URL=$(Build.Repository.Uri) \
+#            -e CI_REPO_URL=$(Build.Repository.Uri) \
+#            -e CI_PLATFORM=AzureDevOps \
+#            -e WORKSPACE=src \
+#            -e EXIT_FLAG='high' \
+#            -v $(Build.SourcesDirectory):/app/src:rw \
+#            docker.io/lacework/codesec:stable lacework sca scan /app/src --save-results
 
