@@ -52,6 +52,8 @@ stages:
             echo "[debug] Build.DefinitionName: $(Build.DefinitionName)"
             echo "[debug] Build.Repository.Uri: $(Build.Repository.Uri)"
 
+            echo "Now on branch: $(git branch --show-current)"
+
             echo "Extracting clean branch name from: $(Build.SourceBranch)"
             BRANCH_NAME=$(echo $(Build.SourceBranch) | sed 's#refs/heads/##')
 
