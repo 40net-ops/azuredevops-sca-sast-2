@@ -6,3 +6,6 @@ Endpoints:
 - /vuln/sqli?user=...
 - /vuln/xss?name=...
 - /vuln/secret
+
+----
+
