@@ -7,4 +7,3 @@ python app/main.py
 # /vuln/xss?name=<payload>
 # /vuln/unpickle  (POST raw pickle bytes)
 # /vuln/secret
-
